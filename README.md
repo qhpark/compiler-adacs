@@ -1,3 +1,3 @@
 ADA/CS compiler
 
-(c) Team@WCRI 2006
+Team@WCRI (Alan, Kwan, Q-Ha) - 2006
