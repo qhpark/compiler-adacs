@@ -1,0 +1,17 @@
+if [ $2 == "ast" ]; then
+./compiler -Ddumpastonly $1 
+exit 0
+fi
+if [ $2 == "pt" ]; then
+./compiler -Ddumpptonly $1 
+exit 0
+fi
+if [ $2 == "tk" ]; then
+./compiler -Ddumptkonly $1 
+exit 0
+fi
+if [ $2 == "st" ]; then
+./compiler -Ddumpstonly $1 
+exit 0
+fi
+

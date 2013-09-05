@@ -1,0 +1,3 @@
+<Start> -> <E> eof
+<E> -> plus <E> <E>
+   -> num

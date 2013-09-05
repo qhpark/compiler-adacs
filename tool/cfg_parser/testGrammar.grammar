@@ -1,0 +1,14 @@
+<start> -> <A> b <C>
+         <D> a ;
+         -> <G> l
+
+
+
+<B>      -> b <C>
+      -> <K> optional  Terminal < repeat1 >
+
+<end> ->
+
+<C> -> <one-two>
+
+<D> -> <one> two <G> {5

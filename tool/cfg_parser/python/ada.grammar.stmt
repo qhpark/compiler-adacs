@@ -1,0 +1,198 @@
+<file> bof <compilations> eof
+
+<compilations>  <pragma_list> <compilation_unit> <compilations>
+             | 
+
+<pragma_list>  <pragma> <pragma_list>
+            | 
+
+<pragma>  pragma <id> ;
+
+<compilation_unit>  <package_declar>
+
+<package_declar> package <package_spec_or_body> ;
+
+<package_spec_or_body> body <id> is <body_declar_list> begin <statement_list> end <id_optional>
+
+<id_optional> <id>
+            | 
+
+<body_declar_list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<statement_list> <statement> <statement_list>
+                |
+
+
+<statement> <pragma>
+          | <assign_statement>
+          | <null_statement>
+          | <call_statement>
+          | <block>
+          | <loop_statement>
+          | <if_statement>
+          | <exit_statement>
+          | <return_statement>
+          | <raise_statement>
+          | <case_statement> 
+
+<null_statement> null ;
+
+<call_statement> <name> ;
+
+<assign_statement> <id> := <expression> ;
+
+<block> <block_id_optional> <decl_part_optional> begin <statement> end ;
+
+<block_id_optional> <id> :
+                  |
+
+<decl_part_optional> declare <body_declar_list>
+                   |
+
+<loop_statement> <loop_id_optional> <iteration_clause_optional> <basic_loop> ;
+
+<loop_id_optional> <id> :
+                 |
+
+<basic_loop> loop <statement_list> end loop
+
+<iteration_clause_optional>  <iteration_clause>
+                          |
+
+<iteration_clause> while <expression>
+
+<reverse_optional> reverse
+                 |
+
+<if_statement> if <id> then <statement_list> <elseif_list> <else_optional> end if ;
+
+<elseif_list> <elseif_clause> <elseif_list>
+            |
+
+<elseif_clause> elsif <id> then <statement_list>
+
+<else_optional> else <statement_list>
+              |
+
+<exit_statement> exit <exit_name_optional> <exit_when_optional> ;
+
+<exit_name_optional> <name>
+                   |
+
+<exit_when_optional> when <expression>
+                    |
+
+<return_statement> return <expression> ;
+
+<raise_statement> raise <id> ;
+
+<case_statement> case <expression> is <case_when_list> end case ;
+
+<case_when_list> when <choice> <choice_list> => <statement_list> <case_when_list>
+               | <others_optional> 
+
+<others_optional> when others => <statement_list>
+                |
+
+<choice_list> BAR <choice> <choice_list>
+            | 
+
+<choice> <expression>
+       | <expression> .. <expression>
+<expression> <expression> and then <relation>
+           | <expression> or  else <relation>
+           | <expression> and      <relation>
+           | <expression> or       <relation>
+           |                       <relation>
+      
+<relation> <relation> =  <simple_expression>
+         | <relation> /= <simple_expression>
+         | <relation> lt <simple_expression>
+         | <relation> <= <simple_expression>
+         | <relation> gt <simple_expression>
+         | <relation> >= <simple_expression>
+         |               <simple_expression>
+
+<simple_expression> <simple_expression> + <term> 
+                  | <simple_expression> - <term> 
+                  | <simple_expression> & <term> 
+                  |                       <term> 
+
+<term> <term> *   <factor>
+     | <term> /   <factor>
+     | <term> mod <factor>
+     |            <factor>
+
+<factor> not <primary>
+       | abs <primary>
+       |  +  <primary>
+       |  -  <primary>
+       |     <primary>
+
+<primary> <literal>
+        | <name>
+        | <aggregate>
+        | ( <expression> )
+
+<literal> intliteral
+        | floatliteral
+        | strliteral 
+        | null
+
+<name> <simple_name> <name_suffix_list> <all_optional> 
+
+<simple_name> <id>
+
+<name_suffix_list>  <name_suffix_list> <name_suffix>
+                 |
+
+<name_suffix> ( <expression> <expression_list> )
+            | ' <id>
+            | . <id>
+            | . <operator_symbol>
+
+<expression_list> , <expression> <expression_list>
+                |
+
+<all_optional> . all
+             |
+
+<aggregate> <name> '( <component> <component_list> )
+
+<component_list> , <component> <component_list>
+               |
+
+<component> <arg_choice_listing_optional> <expression>
+
+<arg_choice_listing_optional> <arg_choice> <arg_choice_list> => 
+
+<arg_choice_list> BAR <arg_choice> <arg_choice_list>
+                |
+
+<arg_choice> <simple_expression>
+           | others
+
+<selected_suffix> <id>
+
+<operator_symbol> strliteral
+
+<id> id

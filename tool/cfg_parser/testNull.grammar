@@ -1,0 +1,4 @@
+<start> -> <E> $
+
+<E> -> plus <E> <E>
+      -> num

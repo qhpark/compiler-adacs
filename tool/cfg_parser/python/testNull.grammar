@@ -1,0 +1,44 @@
+<file>  bof <compilations> eof
+
+<compilations>  <pragma_list> <compilation_unit> <compilations>
+              | 
+
+<pragma_list>  <pragma> <pragma_list>
+             | 
+
+<pragma>  pragma id ;
+
+<compilation_unit>  <package_declar>
+
+<package_declar>  package <package_spec_or_body> ;
+
+
+<package_spec_or_body>  id is <spec_declar_list> <private_part> id end <id_optional>
+                       | body id is <body_declar_list> id end <id_optional>
+
+<id_optional>  id
+              | 
+
+<spec_declar_list>  <spec_declar> <spec_declar_list>
+                  | 
+
+<spec_declar>  <private_type_declar>
+              | <declaration>
+
+<private_type_declar>  type id is private ;
+
+<private_part>  private <private_item> <private_item_list>
+               | 
+
+<private_item_list>  <private_item> <private_item_list>
+                   | 
+
+<private_item>  subtype id is id ;
+               | type id is id ;
+
+<body_declar_list>  <body_declar> <body_declar_list>
+                  | 
+
+<body_declar>  <declaration>
+
+<declaration>  <pragma>

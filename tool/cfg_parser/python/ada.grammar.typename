@@ -1,0 +1,280 @@
+<file>  bof <compilations> eof
+
+<compilations>  <pragma_list> <compilation_unit> <compilations>
+              | 
+
+<pragma_list>  <pragma> <pragma_list>
+             | 
+
+<pragma>  pragma <id> ;
+
+<id> id
+
+<compilation_unit>  <package_declar>
+
+<package_declar>  package <package_spec_or_body> ;
+
+
+<package_spec_or_body>  <id> is <spec_declar_list> <private_part> end <id_optional>
+                       | body <id> is <body_declar_list> <kw_begin> <statement_list> end <id_optional>
+
+<statement_list> <statement> <statement_list>
+                |
+
+<id_optional>  <id>
+              | 
+
+<spec_declar_list>  <spec_declar> <spec_declar_list>
+                  | 
+
+<spec_declar>  <private_type_declar>
+              | <declaration>
+
+<private_type_declar>  type <id> is private ;
+
+<private_part>  private <private_item> <private_item_list>
+               | 
+
+<private_item_list>  <private_item> <private_item_list>
+                   | 
+
+<private_item>  subtype <id> is <id> ;
+               | type <id> is <id> ;
+
+<body_declar_list>  <body_declar> <body_declar_list>
+                  | 
+
+<body_declar>  <declaration>
+
+<declaration>  <pragma>
+             | <object_declar>
+             | <type_declar>
+             | <subtype_declar>
+
+
+<object_declar> <id> <id_list> : <constant_optional> <type_or_subtype> <initialization_option> ;
+
+<id_list>  , <id> <id_list>
+          | 
+
+<constant_optional> constant
+                    |
+
+<type_or_subtype> <type>
+                  | <type_name> <subtype_def_constrain>
+
+
+<initialization_option> 
+
+<type_declar> type <id> is <type_definition> ;
+              | <incomplete_type_decl>
+
+<type> <type_name>
+      | <type_definition>
+
+
+<type_definition>   <record_type_definition>
+                  | <array_type_definition>
+                  | <enumeration_type_def>
+                  | access <type_name>  <subtype_def_constrain_optional>
+
+
+<incomplete_type_decl> type <id> ;
+
+<record_type_definition> record <component_declar> <component_list> <variant_part_optional> end record
+
+
+<component_list> <component_declar> <component_list>
+                | null ;
+                |
+
+<component_declar> <id> <id_list> : <type_or_subtype> <initialization_option> ;
+
+<variant_part_optional> <variant_part>
+                       |
+
+<variant_part> case <id> : <type_name> is <variant> <variant_list> end case ;
+
+<variant_list> <variant> <variant_list>
+              |
+
+<variant> when <v_choice> => <component_list>
+
+<v_choice> <simple_expression>
+
+<array_type_definition> <unconstrained_array_def>
+                        | <constrained_array_def>
+
+<unconstrained_array_def> array <unconstrained_index_list> of <element_type>
+
+<unconstrained_index_list> ( <index_subtype_def> , <index_subtype_def_list> )
+
+<index_subtype_def_list> , <index_subtype_def> <index_subtype_def_list> 
+                        |
+
+<index_subtype_def> <type_name> range lt gt
+
+<constrained_array_def> array <constrained_index_list> of <element_type>
+
+<constrained_index_list> ( <discrete_range> <discrete_range> )
+
+<discrete_range_list> , <discrete_range> <discrete_range_list>
+                     |
+
+<element_type>  <type_or_subtype>
+
+<enumeration_type_def>  ( <enumeration_id_list> )
+
+<enumeration_id_list>  <id> <id_list>
+
+<subtype_declar>  subtype <id> is <type_name> <subtype_def_constrain> ;
+
+
+<subtype_def_constrain_optional> <subtype_def_constrain>
+                               |
+
+
+<subtype_def_constrain>   <range_constraint>
+                        |  <index_constraint>
+
+<range_constraint> range <range>
+
+<range> <simple_expression> .. <simple_expression>
+
+<index_constraint> ( <discrete_range> <discrete_range_list> )
+
+<discrete_range>  <type_name>  <subtype_def_constrain_optional>
+                 |  <range>
+
+                 |  := procedure 
+                 |  function 
+                 |  strliteral in out exception others =>
+
+<statement> <pragma>
+           | <null_statement>
+           | <assign_statement>
+           | <call_statement>
+           | <block>
+           | <loop_statement>
+           | <if_statement>
+           | <exit_statement>
+           | <return_statement>
+           | <raise_statement>
+           | <case_statement> 
+
+<null_statement> null ;
+
+<assign_statement> <id> := <expression> ;
+
+<call_statement> <id> ;
+
+<block> <block_id_optional> <decl_part_optional> begin <statement> end ;
+
+<kw_begin> begin
+
+<block_id_optional> <id> :
+                    |
+
+
+<decl_part_optional> declare <body_declar_list>
+                    |
+
+
+<return_statement> return <id> ;
+
+<raise_statement> raise <id> ;
+
+
+<if_statement> if <id> then <statement_list> <elseif_list> <else_optional> end if ;
+
+<elseif_list> <elseif_clause> <elseif_list>
+             |
+
+<elseif_clause> elsif <id> then <statement_list>
+
+<else_optional> else <statement_list>
+             |
+
+<loop_statement> <loop_id_optional> <iteration_clause_optional> <basic_loop> ;
+
+<loop_id_optional> <id> :
+                    |
+
+<basic_loop> loop <statement_list> end loop
+
+<iteration_clause_optional>  <iteration_clause>
+                            |
+
+<iteration_clause> while <id>
+                  | for <id> in <reverse_optional> <discrete_range>
+
+<reverse_optional> reverse
+                  |
+
+<exit_statement> exit <exit_name_optional> <exit_when_optional> ;
+
+<exit_name_optional> <name>
+                    |
+
+<exit_when_optional> when <expression> 
+                    |
+
+<case_statement> case <expression> is <case_when_list> end case ;
+
+<case_when_list> when <choice> <choice_list> => <statement_list> <case_when_list>
+                | <others_optional> 
+
+<others_optional> when others => <statement_list>
+                 |
+
+<choice_list> <choice> BAR <choice_list>
+             | 
+
+<choice> <expression>
+        | <expression> .. <expression>
+
+
+<expression> <relation> <expression_r> 
+            
+
+<expression_r>   <logical_op>  <relation> <logical_relation_list>
+               | and then      <relation> <and_then_list>
+               | or else       <relation> <or_else_list>
+               |
+
+
+<logical_relation_list> <logical_op> <relation> <logical_relation_list>
+                       |
+
+<and_then_list> and then <relation> <and_then_list>
+               |
+
+<or_else_list> or else <relation> <or_else_list>
+               |
+
+<relation> <simple_expression> <logical_simple_exp_optional>
+
+<logical_simple_exp_optional> <relational_op> <simple_expression>
+                              |
+
+<simple_expression>  <term>
+
+
+<term>  <primary>
+
+<primary> -> <name>
+             ( <expression> )
+
+<relational_op> =
+
+<logical_op> and
+
+<unary_adding_op> +
+
+<type_name> <id>
+
+<name> <id> <suffix_list>
+
+<suffix_list> ' <id> <suffix_list>
+              |
+

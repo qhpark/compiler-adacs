@@ -1,0 +1,58 @@
+<file> bof <object_declar> eof
+
+<object_declar> <id_list> : <constant_optional> <type_or_subtype> <initialization_optional> ;
+
+<id_list>  id <id_rep>
+
+<id_rep> , id <id_rep>
+    |          
+
+<constant_optional> constant
+    |
+
+<type_or_subtype> <type>
+    | <subtype_definition>
+
+<initialization_optional> := <expr>
+    |
+
+<type> id
+    | <type_definition>
+
+<subtype> id
+    | <subtype_definition>
+
+<type_definition> id
+
+
+<subtype_definition>  id <range_constraint>
+                    | id <index_constraint>
+
+<range_constraint> range <range>
+
+<range> <simple_expression> .. <simple_expression>
+
+<simple_expression> -> <unary_adding_op_opt> <term> <adding_op_rep>
+
+<index_constraint> ( <discrete_range> <discrete_range_rep> )
+
+<discrete_range_rep> , <discrete_range> <discrete_range_rep>
+                |
+
+<discrete_range>  <subtype>
+                 |  <range>
+
+<unary_adding_op_opt> +
+                    | -
+                    |
+
+<adding_op_rep> <adding_op> <term> <adding_op_rep>
+        |
+
+<adding_op>  +
+            | -
+            | &
+
+<term> term
+
+<expr> id 

@@ -1,0 +1,146 @@
+<file>  bof <compilations> eof
+
+<compilations>  <pragma_list> <compilation_unit> <compilations>
+              | 
+
+<pragma_list>  <pragma> <pragma_list>
+             | 
+
+<pragma>  pragma id ;
+
+<compilation_unit>  <package_declar>
+
+<package_declar>  package <package_spec_or_body> ;
+
+
+<package_spec_or_body>  id is <spec_declar_list> <private_part> end <id_optional>
+                       | body id is <body_declar_list> begin end <id_optional>
+
+
+<id_optional>  id
+              | 
+
+<spec_declar_list>  <spec_declar> <spec_declar_list>
+                  | 
+
+<spec_declar>  <private_type_declar>
+              | <declaration>
+
+<private_type_declar>  type id is private ;
+
+<private_part>  private <private_item> <private_item_list>
+               | 
+
+<private_item_list>  <private_item> <private_item_list>
+                   | 
+
+<private_item>  subtype id is id ;
+               | type id is id ;
+
+<body_declar_list>  <body_declar> <body_declar_list>
+                  | 
+
+<body_declar>  <declaration>
+
+<declaration>  <pragma>
+             | <object_declar>
+             | <type_declar>
+             | <subtype_declar>
+
+
+<object_declar> id <id_list> : <constant_optional> <type_or_subtype> <initialization_option> ;
+
+<id_list>  , id <id_list>
+          | 
+
+<constant_optional> constant
+                    |
+
+<type_or_subtype> <type>
+                  | <subtype_definition>
+
+
+<initialization_option> 
+
+<type_declar> type id is <type_definition> ;
+              | <incomplete_type_decl>
+
+<type> id
+      | <type_definition>
+
+<type_definition>   <record_type_definition>
+                  | <array_type_definition>
+                  | <enumeration_type_def>
+                  | access <subtype>
+
+<incomplete_type_decl> type id ;
+
+<record_type_definition> record <component_declar> <component_list> <variant_part_optional> end record
+
+
+<component_list> <component_declar> <component_list>
+                | null ;
+                |
+
+<component_declar> id <id_list> : <type_or_subtype> <initialization_option> ;
+
+<variant_part_optional> <variant_part>
+                       |
+
+<variant_part> case id : id is <variant> <variant_list> end case ;
+
+<variant_list> <variant> <variant_list>
+              |
+
+<variant> when <v_choice> => <component_list>
+
+<v_choice> <simple_expression>
+
+<array_type_definition> <unconstrained_array_def>
+                        | <constrained_array_def>
+
+<unconstrained_array_def> array <unconstrained_index_list> of <element_type>
+
+<unconstrained_index_list> ( <index_subtype_def> , <index_subtype_def_list> )
+
+<index_subtype_def_list> , <index_subtype_def> <index_subtype_def_list> 
+                        |
+
+<index_subtype_def> id range lt gt
+
+<constrained_array_def> array <constrained_index_list> of <element_type>
+
+<constrained_index_list> ( <discrete_range> <discrete_range> )
+
+<discrete_range_list> , <discrete_range> <discrete_range_list>
+                     |
+
+<element_type>  <type_or_subtype>
+
+<enumeration_type_def>  ( <enumeration_id_list> )
+
+<enumeration_id_list>  id <id_list>
+
+<subtype_declar>  subtype id is <subtype_definition> ;
+
+<subtype> id <subtype_def_constrain_optional>
+
+<subtype_def_constrain_optional> <subtype_def_constrain>
+                               |
+
+<subtype_definition>  id <subtype_def_constrain>
+
+<subtype_def_constrain>   <range_constraint>
+                        |  <index_constraint>
+
+<range_constraint> range <range>
+
+<range> <simple_expression> .. <simple_expression>
+
+<index_constraint> ( <discrete_range> <discrete_range_list> )
+
+<discrete_range>  <subtype>
+                 |  <range>
+
+
+<simple_expression> | id

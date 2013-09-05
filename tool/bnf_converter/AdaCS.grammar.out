@@ -1,0 +1,426 @@
+<compilation> -> <compilation unit> <NT0>
+
+<NT0> -> <compilation unit> <NT0>
+<NT0> -> 
+
+<compilation unit> -> <package declaration>
+
+<package declaration> -> package <package spec or body> ;
+
+<package spec or body> -> <id> is <NT1> <NT2> end <id option>
+
+<NT2> -> <private part>
+<NT2> -> 
+<NT1> -> <spec declaration> <NT1>
+<NT1> -> 
+
+<package spec or body> -> body <id> is <NT3> begin <statement><NT4><NT5> end <id option>
+
+<NT5> -> <exception part>
+<NT5> -> 
+<NT4> -> <statement> <NT4>
+<NT4> -> 
+<NT3> -> <body declaration> <NT3>
+<NT3> -> 
+
+<id option> -> <NT6>
+
+<NT6> -> <id>
+<NT6> -> 
+
+<spec declaration> -> <private type declaration>
+                   -> <declaration>
+
+<private type declaration> -> type <id> is private;
+
+<private part> -> private <private item> <NT7>
+
+<NT7> -> <private item> <NT7>
+<NT7> -> 
+
+<private item> -> subtype <id> is <subtype definition>;
+               -> type <id> is <type definition>;
+
+<body declaration> -> <subprogram body decl>
+                   -> <declaration>
+
+<declaration> -> <object declaration>
+              -> <type declaration>
+              -> <subtype declaration>
+              -> <subprogram declaration>
+              -> use <id list>;
+              -> <id list> : exception;
+
+<object declaration> -> <id list> : <constant option> <type or subtype> <initialization option>;
+
+<id list> -> <id> <NT8>
+
+<NT8> -> , <id> <NT8>
+<NT8> -> 
+<id> -> Identifier
+
+<constant option> -> <NT9>
+
+<NT9> -> constant
+<NT9> -> 
+
+<type or subtype> -> <type>
+                  -> <subtype definition>
+
+<initialization option> -> <NT10>
+
+<NT10> -> := <expression>
+<NT10> -> 
+
+<type declaration> -> type <id> is <type definition>;
+                   -> <incomplete type decl>
+
+<type> -> <type name>
+       -> <type definition>
+
+<type name> -> <id>
+
+<type definition> -> <record type definition>
+                  -> <array type definition>
+                  -> <enumeration type def>
+                  -> access <subtype>
+
+<incomplete type decl> -> type <id> ;
+
+<record type definition> -> record <component list> end record
+
+<component list> -> <component declaration> <NT11>
+
+<NT11> -> <component declaration> <NT11>
+<NT11> -> 
+                 -> <NT12> <variant part>
+
+<NT12> -> <component declaration> <NT12>
+<NT12> -> 
+                 -> null ;
+
+<component declaration> -> <id list> : <type or subtype> <initialization option> ;
+
+<variant part> -> case <id> : <type name> is <variant> <NT13> end case ;
+
+<NT13> -> <variant> <NT13>
+<NT13> -> 
+
+<variant> -> when <v choice> => <component list>
+
+<v choice> -> <simple expression>
+
+<array type definition> -> <unconstrained array def>
+                        -> <constrained array def>
+
+<unconstrained array def> -> array <unconstrained index list> of <element type>
+
+<unconstrained index list> -> (<index subtype def> <NT14>)
+
+<NT14> -> ,<index subtype def> <NT14>
+<NT14> -> 
+
+<index subtype def> -> <type name> range <>
+
+<constrained array def> -> array <constrained index list> of <element type>
+
+<constrained index list> -> (<discrete range> <NT15>)
+
+<NT15> -> , <discrete range> <NT15>
+<NT15> -> 
+
+<element type> -> <type or subtype>
+
+<enumeration type def> -> (<enumeration id list>)
+<enumeration id list> -> <id list>
+
+<subtype declaration> -> subtype <id> is <subtype definition> ;
+
+<subtype> -> <type name>
+          -> <subtype definition>
+
+<subtype definition> -> <type name> <range constraint>
+                     -> <type name> <index constraint>
+
+<range constraint> -> range <range>
+
+<range> -> <simple expression> .. <simple expression>
+
+<index constraint> -> (<discrete range> <NT16>)
+
+<NT16> -> , <discrete range> <NT16>
+<NT16> -> 
+
+<discrete range> -> <subtype>
+                 -> <range>
+ 
+<subprogram declaration> -> <subprogram specification> ;
+
+<subprogram body decl> -> <subprogram specification> is <NT17> begin <statement><NT18> <NT19> end <designator option> ;
+
+<NT19> -> <exception part>
+<NT19> -> 
+<NT18> -> <statement> <NT18>
+<NT18> -> 
+<NT17> -> <body declaration> <NT17>
+<NT17> -> 
+
+<subprogram specification> -> procedure <id> <formal part opt>
+                           -> function <designator> <formal part opt> return <type name>
+
+<designator option> -> <id option>
+                    -> <operator symbol>
+
+<designator> -> <id>
+             -> <operator symbol>
+
+<operator symbol> -> StrLiteral
+
+<formal part> -> (<parameter declaration list>)
+
+<formal part opt> -> <NT20>
+
+<NT20> -> <formal part>
+<NT20> -> 
+
+<parameter declaration list> -> <parameter decl> <NT21>
+
+<NT21> -> ; <parameter decl> <NT21>
+<NT21> -> 
+
+<parameter decl> -> <id list> : <NT22> <type or subtype>
+
+<NT22> -> <mode>
+<NT22> -> 
+
+<mode> -> in <NT23>
+
+<NT23> -> out
+<NT23> -> 
+       -> out
+
+<exception part> -> exception <exception handler><NT24>
+
+<NT24> -> <exception handler> <NT24>
+<NT24> -> 
+
+<exception handler> -> when <exception when tail>
+
+<exception when tail> -> others => <statement><NT25>
+
+<NT25> -> <statement> <NT25>
+<NT25> -> 
+                      -> <name> <NT26> => <statement><NT27>
+
+<NT27> -> <statement> <NT27>
+<NT27> -> 
+<NT26> -> | <name> <NT26>
+<NT26> -> 
+
+<statement> -> <null statment>
+            -> <assignment statement>
+            -> <call statement>
+            -> <block>
+            -> <loop statement>
+            -> <if statement>
+            -> <exit statement>
+            -> <return statement>
+            -> <case statement>
+            -> <raise statement>
+
+<null statement> -> null;
+
+<assignment statement> -> <name> := <expression> ;
+
+<call statement> -> <name> ;
+
+<block> -> <NT28> <NT29> begin <statement><NT30> <NT31> end <id option> ;
+
+<NT31> -> <exception part>
+<NT31> -> 
+<NT30> -> <statement> <NT30>
+<NT30> -> 
+<NT29> -> <decl part>
+<NT29> -> 
+<NT28> -> <id>:
+<NT28> -> 
+
+<decl part> -> declare <NT32>
+
+<NT32> -> <body declaration> <NT32>
+<NT32> -> 
+
+<return statement> -> return <NT33> ;
+
+<NT33> -> <expression>
+<NT33> -> 
+
+<raise statement> -> raise <name> ;
+
+<if statement> -> if <expression> then <statement><NT34> <NT35> <NT36> end if ;
+
+<NT36> -> <else part>
+<NT36> -> 
+<NT35> -> elsif <expression> then <statement>{<statement>} <NT35>
+<NT35> -> 
+<NT34> -> <statement> <NT34>
+<NT34> -> 
+
+<else part> -> else <statement><NT37>
+
+<NT37> -> <statement> <NT37>
+<NT37> -> 
+
+<loop statement> -> <NT38> <NT39> <basic loop> <id option>;
+
+<NT39> -> <iteration clause>
+<NT39> -> 
+<NT38> -> <id>:
+<NT38> -> 
+
+<basic loop> -> loop <statement><NT40> end loop
+
+<NT40> -> <statement> <NT40>
+<NT40> -> 
+
+<iteration clause> -> while <expression>
+                   -> for <id> in <NT41> <discrete range>
+
+<NT41> -> reverse
+<NT41> -> 
+
+<exit statement> -> exit <NT42> <NT43> ;
+
+<NT43> -> when <expression>
+<NT43> -> 
+<NT42> -> <name>
+<NT42> -> 
+
+<case statement> -> case <expression> is <when list> <others option> end case ;
+
+<when list> -> <NT44>
+
+<NT44> -> when <choice list> => <statement>{<statement>} <NT44>
+<NT44> -> 
+
+<others option> -> <NT45>
+
+<NT45> -> when others => <statement>{<statement>}
+<NT45> -> 
+
+<choice list> -> <choice> <NT46>
+
+<NT46> -> |<choice> <NT46>
+<NT46> -> 
+
+<choice> -> <expression>
+         -> <expression> .. <expression>
+
+<expression> -> <relation> <NT47>
+
+<NT47> -> <logical op> <relation> <NT47>
+<NT47> -> 
+             -> <relation> <NT48>
+
+<NT48> -> and then <relation> <NT48>
+<NT48> -> 
+             -> <relation> <NT49>
+
+<NT49> -> or else <relation> <NT49>
+<NT49> -> 
+
+<relation> -> <simple expression> <NT50>
+
+<NT50> -> <relational op> <simple expression>
+<NT50> -> 
+
+<simple expression> -> <NT51> <term> <NT52>
+
+<NT52> -> <adding op> <term> <NT52>
+<NT52> -> 
+<NT51> -> <unary adding op>
+<NT51> -> 
+
+<term> -> <factor> <NT53>
+
+<NT53> -> <multiplying op> <factor> <NT53>
+<NT53> -> 
+
+<factor> -> <primary> <NT54>
+
+<NT54> -> ** <primary>
+<NT54> -> 
+         -> not <primary>
+         -> abs <primary>
+
+<primary> -> <literal>
+          -> <name>
+          -> (<expresion>)
+          -> <aggregate>
+          -> new <type name>
+
+<literal> -> IntLiteral
+          -> FloatLiteral
+          -> StrLiteral
+          -> null
+
+<logical op> -> and
+             -> or
+
+<relational op> -> =
+                -> /=
+                -> <
+                -> <=
+                -> >
+                -> >=
+
+<adding op> -> +
+            -> -
+            -> &
+
+<unary adding op> -> +
+                  -> -
+
+<multiplying op> -> *
+                 -> /
+                 -> mod
+
+<name> -> <simple name> <NT55><NT56>
+
+<NT56> -> .all
+<NT56> -> 
+<NT55> -> <name suffix> <NT55>
+<NT55> -> 
+
+<simple name> -> <id>
+
+<selected suffix> -> <id>
+                  -> <operator symbol>
+
+<name suffix> -> . <selected suffix>
+              -> (<expression> <NT57>)
+
+<NT57> -> , <expression> <NT57>
+<NT57> -> 
+              -> '<id>
+
+<aggregate> -> <name> ' (<component> <NT58>)
+
+<NT58> -> ,<component> <NT58>
+<NT58> -> 
+
+<component> -> <NT59> <expression>
+
+<NT59> -> <agg choice list> =>
+<NT59> -> 
+
+<agg choice list> -> <agg choice> <NT60>
+
+<NT60> -> | <agg choice> <NT60>
+<NT60> -> 
+
+<agg choice> -> <simple name>
+             -> <simple expression>
+             -> <discrete range>
+             -> others
+

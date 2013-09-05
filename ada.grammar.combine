@@ -1,0 +1,368 @@
+<file> bof <compilations> eof
+
+<compilations> <pragma_list> <compilation_unit> <compilations>
+             | 
+
+<pragma_list> <pragma> <pragma_list>
+            | 
+
+<pragma> pragma id ;
+
+<compilation_unit>  <package_declar>
+
+<package_declar> package <package_spec_or_body> ;
+
+<package_spec_or_body> id is <spec_declar_list> <private_part> end <id_optional>
+                     | body id is <body_declar_list> begin <statement_list> <exception_part_optional> end <id_optional>
+
+<exception_part_optional> <exception_part>
+                        |
+
+<id_optional> id
+            | 
+
+<spec_declar_list> <spec_declar> <spec_declar_list>
+                 | 
+
+<spec_declar> <private_type_declar>
+            | <declaration>
+
+<private_type_declar>  type id is private ;
+
+<private_part> private <private_item> <private_item_list>
+             | 
+
+<private_item_list> <private_item> <private_item_list>
+                  | 
+
+<private_item> subtype id is <subtype_definition> ;
+             | subtype id is id ;
+             | type id is <type_definition> ;
+
+<body_declar_list> <body_declar> <body_declar_list>
+                 |
+
+<body_declar> <declaration>
+            | <subprogram_body_decl>
+
+<declaration> <pragma>
+            | <object_declar>
+            | <type_declaration>
+            | <subtype_declaration>
+            | <subprogram_declaration>
+            | use id <id_list> ;
+            | id <id_list> : exception ;
+
+<object_declar> id <id_list> : <constant_optional> <type_or_subtype> <initialization_optional> ;
+
+<id_list> , id <id_list>
+        |
+
+<constant_optional> constant
+                  |
+
+<type_or_subtype> <type>
+                | <subtype>
+
+<initialization_optional> := <expression>
+                        |
+
+<type_declaration> type id is <type_definition> ;
+                 | <incomplete_type_decl>
+
+<type> id
+     | <type_definition>
+
+
+<type_definition> <record_type_definition>
+                | <array_type_definition>
+                | <enumeration_type_def>
+                | access <subtype>
+                | access id 
+
+<incomplete_type_decl> type id ;
+
+<record_type_definition> record <components_list>  end record
+
+<components_list>  <component_declar_list> <variant_part_optional>
+                | null ;
+
+<component_declar_list> <component_declar> <component_declar_list>
+                |                      
+
+<component_declar> id <id_list> : <type_or_subtype> <initialization_optional> ;
+
+<variant_part_optional> <variant_part>
+                       |
+
+<variant_part> case id : id is <variant> <variant_list> end case ;
+
+<variant_list> <variant> <variant_list>
+              |
+
+<variant> when <v_choice> => <component_list>
+
+<v_choice> <simple_expression>
+
+<array_type_definition> <unconstrained_array_def>
+                      | <constrained_array_def>
+
+<unconstrained_array_def> array <unconstrained_index_list> of <element_type>
+
+<unconstrained_index_list> ( <index_subtype_def> <index_subtype_def_list> )
+
+<index_subtype_def_list> , <index_subtype_def> <index_subtype_def_list> 
+                       |
+
+<index_subtype_def> id range lt gt
+
+<constrained_array_def> array <constrained_index_list> of <element_type>
+
+<constrained_index_list> ( <discrete_range> <discrete_range_list> )
+
+<element_type>  <type_or_subtype>
+
+<enumeration_type_def>  ( id <id_list> )
+
+<subtype> <subtype_definition>
+
+<subtype_declaration> subtype id is <subtype_definition> ;
+                    | subtype id is id ;
+
+<subtype_definition> id <range_constraint>
+                   | id <index_constraint>
+
+<range_constraint> range <range>
+
+<range> <simple_expression> .. <simple_expression>
+
+<index_constraint> ( <discrete_range> <discrete_range_list> )
+
+<discrete_range_list> , <discrete_range> <discrete_range_list>
+                    |
+
+<discrete_range> <range>
+               | subtype <subtype>
+
+
+<subprogram_declaration> <subprogram_specification> ;
+
+<subprogram_body_decl> <subprogram_specification> is <body_declar_list> begin <statement_list> <exception_part_optional> end <designator_option> ;
+
+<subprogram_specification> procedure id <formal_part_optional>
+                         | function <designator> <formal_part_optional> return id
+
+<designator_option> <id_optional>
+                  | <operator_symbol>
+
+<designator> id
+           | <operator_symbol>
+
+<formal_part_optional> ( <parameter_declaration_list> )
+                     | 
+
+<parameter_declaration_list> <parameter_decl> <parameter_decl_list>
+
+<parameter_decl_list> ; <parameter_decl> <parameter_decl_list>
+                    |
+
+<parameter_decl> id <id_list> : <mode_in> <mode_out> <type_or_subtype>
+
+<mode_in> in
+        |
+
+<mode_out> out
+         |
+
+<exception_part> exception <exception_handler> <exception_handler_list>
+
+<exception_handler_list> <exception_handler> <exception_handler_list>
+                       |
+
+<exception_handler> when <exception_when_tail>
+
+<exception_when_tail> others => <statement_list>
+                    | <name> <name_list> => <statement_list>
+
+<name_list> BAR <name> <name_list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<statement_list> <statement> <statement_list>
+                |
+
+
+<statement> <pragma>
+          | <assign_statement>
+          | <null_statement>
+          | <call_statement>
+          | <block>
+          | <loop_statement>
+          | <if_statement>
+          | <exit_statement>
+          | <return_statement>
+          | <raise_statement>
+          | <case_statement> 
+
+<null_statement> null ;
+
+<call_statement> <name> ;
+
+<assign_statement> <name> := <expression> ;
+
+<block> <block_id_optional> <decl_part_optional> begin <statement_list> end <id_optional> ;
+
+<block_id_optional> id :
+                  |
+
+<decl_part_optional> declare <body_declar_list>
+                   |
+
+<loop_statement> <loop_id_optional> <iteration_clause_optional> <basic_loop> ;
+
+<loop_id_optional> id :
+                 |
+
+<basic_loop> loop <statement_list> end loop
+
+<iteration_clause_optional>  <iteration_clause>
+                          |
+
+<iteration_clause> while <expression>
+                 | for id in <reverse_optional> <discrete_range>
+
+<reverse_optional> reverse
+                 |
+
+<if_statement> if <expression> then <statement_list> <elseif_list> <else_optional> end if ;
+
+<elseif_list> <elseif_clause> <elseif_list>
+            |
+
+<elseif_clause> elsif <expression> then <statement_list>
+
+<else_optional> else <statement_list>
+              |
+
+<exit_statement> exit <exit_name_optional> <exit_when_optional> ;
+
+<exit_name_optional> <name>
+                   |
+
+<exit_when_optional> when <expression>
+                    |
+
+<return_statement> return <expression> ;
+
+<raise_statement> raise id ;
+
+<case_statement> case <expression> is <case_when_list> end case ;
+
+<case_when_list> when <choice> <choice_list> => <statement_list> <case_when_list>
+               | <others_optional> 
+
+<others_optional> when others => <statement_list>
+                |
+
+<choice_list> BAR <choice> <choice_list>
+            | 
+
+<choice> <expression>
+       | <expression> .. <expression>
+
+<expression> <expression> and then <relation>
+           | <expression> or  else <relation>
+           | <expression> and      <relation>
+           | <expression> or       <relation>
+           |                       <relation>
+      
+<relation> <relation> =  <simple_expression>
+         | <relation> /= <simple_expression>
+         | <relation> lt <simple_expression>
+         | <relation> <= <simple_expression>
+         | <relation> gt <simple_expression>
+         | <relation> >= <simple_expression>
+         |               <simple_expression>
+
+<simple_expression> <simple_expression> + <term> 
+                  | <simple_expression> - <term> 
+                  | <simple_expression> & <term> 
+                  |                       <term> 
+
+<term> <term> *   <factor>
+     | <term> /   <factor>
+     | <term> mod <factor>
+     |            <factor>
+
+<factor> not <primary>
+       | abs <primary>
+       |  +  <primary>
+       |  -  <primary>
+       |     <primary>
+       | <factor> ** <primary>
+
+<primary> <literal>
+        | <name>
+        | <aggregate>
+        | ( <expression> )
+
+<literal> intliteral
+        | floatliteral
+        | strliteral 
+        | null
+
+<name> id <name_suffix_list> <all_optional> 
+
+<name_suffix_list>  <name_suffix_list> <name_suffix>
+                 |
+
+<name_suffix> ( <expression> <expression_list> )
+            | ' id
+            | . id
+            | . <operator_symbol>
+
+<expression_list> , <expression> <expression_list>
+                |
+
+<all_optional> . all
+             |
+
+<aggregate> <name> '( <component> <component_list> )
+
+<component_list> , <component> <component_list>
+               |
+
+<component> <arg_choice_listing_optional> <expression>
+
+<arg_choice_listing_optional> <arg_choice> <arg_choice_list> => 
+
+<arg_choice_list> BAR <arg_choice> <arg_choice_list>
+                |
+
+<arg_choice> <simple_expression>
+           | others
+
+<selected_suffix> id
+
+<operator_symbol> strliteral

@@ -1,0 +1,271 @@
+<compilation> -> <compilation unit> {<compilation unit>}
+
+<compilation unit> -> <package declaration>
+
+<package declaration> -> package <package spec or body> ;
+
+<package spec or body> -> <id> is {<spec declaration>} [<private part>]
+                             end <id option>
+
+<package spec or body> ->
+	 body <id> is {<body declaration>}
+              begin <statement>{<statement>}[<exception part>] end <id option>
+
+<id option> -> [<id>]
+
+<spec declaration> -> <private type declaration>
+                   -> <declaration>
+
+<private type declaration> -> type <id> is private;
+
+<private part> -> private <private item> {<private item>}
+
+<private item> -> subtype <id> is <subtype definition>;
+               -> type <id> is <type definition>;
+
+<body declaration> -> <subprogram body decl>
+                   -> <declaration>
+
+<declaration> -> <object declaration>
+              -> <type declaration>
+              -> <subtype declaration>
+              -> <subprogram declaration>
+              -> use <id list>;
+              -> <id list> : exception;
+
+<object declaration> -> <id list> : <constant option> <type or subtype>
+                            <initialization option>;
+
+<id list> -> <id> {, <id>}
+<id> -> Identifier
+
+<constant option> -> [constant]
+
+<type or subtype> -> <type>
+                  -> <subtype definition>
+
+<initialization option> -> [:= <expression>]
+
+<type declaration> -> type <id> is <type definition>;
+                   -> <incomplete type decl>
+
+<type> -> <type name>
+       -> <type definition>
+
+<type name> -> <id>
+
+<type definition> -> <record type definition>
+                  -> <array type definition>
+                  -> <enumeration type def>
+                  -> access <subtype>
+
+<incomplete type decl> -> type <id> ;
+
+<record type definition> -> record <component list> end record
+
+<component list> -> <component declaration> {<component declaration>}
+                 -> {<component declaration>} <variant part>
+                 -> null ;
+
+<component declaration> -> <id list> : <type or subtype>
+                              <initialization option> ;
+
+<variant part> -> case <id> : <type name> is <variant>
+                    {<variant>} end case ;
+
+<variant> -> when <v choice> => <component list>
+
+<v choice> -> <simple expression>
+
+<array type definition> -> <unconstrained array def>
+                        -> <constrained array def>
+
+<unconstrained array def> -> array <unconstrained index list> of <element type>
+
+<unconstrained index list> -> (<index subtype def> {,<index subtype def>})
+
+<index subtype def> -> <type name> range <>
+
+<constrained array def> -> array <constrained index list> of <element type>
+
+<constrained index list> -> (<discrete range> {, <discrete range>})
+
+<element type> -> <type or subtype>
+
+<enumeration type def> -> (<enumeration id list>)
+<enumeration id list> -> <id list>
+
+<subtype declaration> -> subtype <id> is <subtype definition> ;
+
+<subtype> -> <type name>
+          -> <subtype definition>
+
+<subtype definition> -> <type name> <range constraint>
+                     -> <type name> <index constraint>
+
+<range constraint> -> range <range>
+
+<range> -> <simple expression> .. <simple expression>
+
+<index constraint> -> (<discrete range> {, <discrete range>})
+
+<discrete range> -> <subtype>
+                 -> <range>
+
+ 
+<subprogram declaration> -> <subprogram specification> ;
+
+<subprogram body decl> -> <subprogram specification> is 
+                          {<body declaration>} begin <statement>{<statement>}
+                          [<exception part>] end <designator option> ;
+
+<subprogram specification> -> procedure <id> <formal part opt>
+                           -> function <designator> <formal part opt>
+                              return <type name>
+
+<designator option> -> <id option>
+                    -> <operator symbol>
+
+<designator> -> <id>
+             -> <operator symbol>
+
+<operator symbol> -> StrLiteral
+
+<formal part> -> (<parameter declaration list>)
+
+<formal part opt> -> [<formal part>]
+
+<parameter declaration list> -> <parameter decl> {; <parameter decl>}
+
+<parameter decl> -> <id list> : [<mode>] <type or subtype>
+
+<mode> -> in [out]
+       -> out
+
+<exception part> -> exception <exception handler>{<exception handler>}
+
+<exception handler> -> when <exception when tail>
+
+<exception when tail> -> others => <statement>{<statement>}
+                      -> <name> {| <name>} => <statement>{<statement>}
+
+<statement> -> <null statment>
+            -> <assignment statement>
+            -> <call statement>
+            -> <block>
+            -> <loop statement>
+            -> <if statement>
+            -> <exit statement>
+            -> <return statement>
+            -> <case statement>
+            -> <raise statement>
+
+<null statement> -> null;
+
+<assignment statement> -> <name> := <expression> ;
+
+<call statement> -> <name> ;
+
+<block> -> [<id>:] [<decl part>]
+           begin <statement>{<statement>} [<exception part>] end <id option> ;
+
+<decl part> -> declare {<body declaration>}
+
+<return statement> -> return [<expression>] ;
+
+<raise statement> -> raise <name> ;
+
+<if statement> -> if <expression> then <statement>{<statement>}
+                  {elsif <expression> then <statement>{<statement>}}
+                  [<else part>] end if ;
+
+<else part> -> else <statement>{<statement>}
+
+<loop statement> -> [<id>:] [<iteration clause>] <basic loop> <id option>;
+
+<basic loop> -> loop <statement>{<statement>} end loop
+
+<iteration clause> -> while <expression>
+                   -> for <id> in [reverse] <discrete range>
+
+<exit statement> -> exit [<name>] [when <expression>] ;
+
+<case statement> -> case <expression> is <when list> <others option> end case ;
+
+<when list> -> {when <choice list> => <statement>{<statement>}}
+
+<others option> -> [when others => <statement>{<statement>}]
+
+<choice list> -> <choice> {|<choice>}
+
+<choice> -> <expression>
+         -> <expression> .. <expression>
+
+<expression> -> <relation> {<logical op> <relation>}
+             -> <relation> {and then <relation>}
+             -> <relation> {or else <relation>}
+
+<relation> -> <simple expression> [<relational op> <simple expression>]
+
+<simple expression> -> [<unary adding op>] <term> {<adding op> <term>}
+
+<term> -> <factor> {<multiplying op> <factor>}
+
+<factor> -> <primary> [** <primary>]
+         -> not <primary>
+         -> abs <primary>
+
+<primary> -> <literal>
+          -> <name>
+          -> (<expresion>)
+          -> <aggregate>
+          -> new <type name>
+
+<literal> -> IntLiteral
+          -> FloatLiteral
+          -> StrLiteral
+          -> null
+
+<logical op> -> and
+             -> or
+
+<relational op> -> =
+                -> /=
+                -> <
+                -> <=
+                -> >
+                -> >=
+
+<adding op> -> +
+            -> -
+            -> &
+
+<unary adding op> -> +
+                  -> -
+
+<multiplying op> -> *
+                 -> /
+                 -> mod
+
+<name> -> <simple name> {<name suffix>}[.all]
+
+<simple name> -> <id>
+
+<selected suffix> -> <id>
+                  -> <operator symbol>
+
+<name suffix> -> . <selected suffix>
+              -> (<expression> {, <expression>})
+              -> '<id>
+
+<aggregate> -> <name> ' (<component> {,<component>})
+
+<component> -> [<agg choice list> =>] <expression>
+
+<agg choice list> -> <agg choice> {| <agg choice>}
+
+<agg choice> -> <simple name>
+             -> <simple expression>
+             -> <discrete range>
+             -> others
+
